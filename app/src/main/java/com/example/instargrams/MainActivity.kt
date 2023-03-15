@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instargrams.adapters.SearchAdapter
 import com.example.instargrams.databinding.ActivityMainBinding
 import com.example.instargrams.models.SearchUser
@@ -20,13 +22,14 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: SearchAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
-
 
         setContentView(view)
     }
@@ -40,7 +43,8 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        val adapter = SearchAdapter(users)
+        adapter = SearchAdapter(users)
+        binding.rvSearch.layoutManager = LinearLayoutManager(this)
         binding.rvSearch.adapter = adapter
     }
 
@@ -55,11 +59,8 @@ class MainActivity : AppCompatActivity() {
         searchView.queryHint = "Search for users ..."
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                searchView.clearFocus()
-                return true
-            }
-            override fun onQueryTextChange(newText: String): Boolean {
-                val client = ApiConfig.getApi().searchUsers(newText)
+
+                val client = ApiConfig.getApi().searchUsers(query, "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")
                 client.enqueue(object : Callback<SearchResponse> {
                     override fun onResponse(
                         call: Call<SearchResponse>,
@@ -68,8 +69,9 @@ class MainActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val responseBody = response.body()
                             if (responseBody != null) {
-                                Log.e("TESTING", responseBody.toString())
+
                                 setSearchUsersData(responseBody.items)
+                                Log.d("TESTING", responseBody.items.toString())
                             }
                         } else {
                             Log.e("TESTING", "onFailure: ${response.message()}")
@@ -79,6 +81,11 @@ class MainActivity : AppCompatActivity() {
                         Log.e("TESTING", "onFailure: ${t.message}")
                     }
                 })
+
+                searchView.clearFocus()
+                return true
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
                 return false
             }
         })

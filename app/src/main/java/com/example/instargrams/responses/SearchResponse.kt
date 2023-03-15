@@ -77,6 +77,6 @@ data class ItemsItem(
 
 ){
 	fun toUser(): SearchUser {
-		return SearchUser(login, avatarUrl)
+		return SearchUser(login, avatarUrl, id.toString())
 	}
 }

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Instargrams">
         <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailActivitiy"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
