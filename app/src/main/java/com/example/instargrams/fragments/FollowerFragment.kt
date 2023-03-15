@@ -11,7 +11,6 @@ import com.example.instargrams.adapters.SearchAdapter
 import com.example.instargrams.databinding.FragmentFollowerBinding
 import com.example.instargrams.models.SearchUser
 import com.example.instargrams.responses.FollowerResponseItem
-import com.example.instargrams.responses.FollowingResponseItem
 import com.example.instargrams.utilities.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
