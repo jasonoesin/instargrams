@@ -11,12 +11,11 @@ import com.example.instargrams.models.SearchUser
 import com.squareup.picasso.Picasso
 
 
-class SearchAdapter(private val items: List<SearchUser>) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(private val items: List<SearchUser>, private val isClickable: Boolean) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemSearchUserBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        Log.d("TESTING","MASUK")
         val inflater = LayoutInflater.from(parent.context)
         binding= ItemSearchUserBinding.inflate(inflater,parent,false)
         return ViewHolder(binding)
@@ -24,7 +23,6 @@ class SearchAdapter(private val items: List<SearchUser>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: SearchAdapter.ViewHolder, position: Int) {
         holder.bind(items[position])
-        Log.d("TESTING", items[position].login)
     }
 
     override fun getItemCount(): Int {
@@ -39,14 +37,16 @@ class SearchAdapter(private val items: List<SearchUser>) : RecyclerView.Adapter<
                     Picasso.get().load(item.avatar_url).into(avatarUrl)
                 }
                 login.text = item.login
-                root.setOnClickListener {
-                    val intent = Intent(
-                        binding.root.context,
-                        DetailActivity::class.java
-                    )
-                    intent.putExtra("id", item.id)
-                    binding.root.context.startActivity(intent)
-                }
+
+                if(isClickable)
+                    root.setOnClickListener {
+                        val intent = Intent(
+                            binding.root.context,
+                            DetailActivity::class.java
+                        )
+                        intent.putExtra("username", item.login)
+                        binding.root.context.startActivity(intent)
+                    }
             }
         }
     }

@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        adapter = SearchAdapter(users)
+        adapter = SearchAdapter(users, true)
         binding.rvSearch.layoutManager = LinearLayoutManager(this)
         binding.rvSearch.adapter = adapter
     }
@@ -69,9 +69,7 @@ class MainActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val responseBody = response.body()
                             if (responseBody != null) {
-
                                 setSearchUsersData(responseBody.items)
-                                Log.d("TESTING", responseBody.items.toString())
                             }
                         } else {
                             Log.e("TESTING", "onFailure: ${response.message()}")

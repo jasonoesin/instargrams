@@ -1,12 +1,7 @@
 package com.example.instargrams.responses
 
+import com.example.instargrams.models.SearchUser
 import com.google.gson.annotations.SerializedName
-
-data class FollowingResponse(
-
-	@field:SerializedName("FollowingResponse")
-	val followingResponse: List<FollowingResponseItem?>? = null
-)
 
 data class FollowingResponseItem(
 
@@ -63,4 +58,8 @@ data class FollowingResponseItem(
 
 	@field:SerializedName("organizations_url")
 	val organizationsUrl: String? = null
-)
+){
+	fun toUser(): SearchUser {
+		return SearchUser(login!!, avatarUrl!!, id.toString())
+	}
+}
