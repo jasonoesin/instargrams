@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FollowingFragment">
+    tools:context=".fragments.FollowingFragment"
+    android:orientation="vertical">
 
     <!--    -->
     <androidx.recyclerview.widget.RecyclerView
@@ -12,4 +13,47 @@
         android:id="@+id/rvFollowing"/>
     <!--    -->
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/progress"
+        >
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:max="3"
+            android:progress="100" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/no_data_layout"
+        >
+
+        <ImageView
+            android:id="@+id/avatar_url"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/no_data"
+            android:contentDescription="Avatar"
+            />
+
+        <TextView
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Users Found !"
+            android:id="@+id/text"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -29,7 +29,18 @@ class FollowerFragment(private val username: String) : Fragment() {
 
         fetchUserFollowers(username)
 
+        showProgressBar()
+
         return binding.root
+    }
+
+    private fun showProgressBar(){
+        binding.rvFollower.adapter = null
+        binding.progress.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar(){
+        binding.progress.visibility = View.GONE
     }
 
     private fun fetchUserFollowers(username: String){
@@ -45,15 +56,24 @@ class FollowerFragment(private val username: String) : Fragment() {
                     if (responseBody != null) {
                         if (responseBody.isNotEmpty()) {
                             Log.d("TESTING", responseBody.toString())
+                            binding.noDataLayout.visibility = View.INVISIBLE
                             setFollowersData(responseBody)
+                        }
+                        else{
+                            binding.rvFollower.adapter = null
+                            binding.noDataLayout.visibility = View.VISIBLE
                         }
                     }
                 } else {
                     Log.e("TESTING", "onFailure: ${response.message()}")
                 }
+
+                hideProgressBar()
             }
             override fun onFailure(call: Call<List<FollowerResponseItem>>, t: Throwable) {
                 Log.e("TESTING", "onFailure: ${t.message}")
+
+                hideProgressBar()
             }
         })
     }

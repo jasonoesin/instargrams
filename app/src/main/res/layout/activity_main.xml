@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:orientation="vertical"
     >
 <!--    -->
     <androidx.recyclerview.widget.RecyclerView
@@ -12,5 +13,46 @@
         android:layout_height="wrap_content"
         android:id="@+id/rvSearch"/>
 <!--    -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/progress"
+        >
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:max="3"
+            android:progress="100" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/no_data_layout"
+        >
+
+        <ImageView
+            android:id="@+id/avatar_url"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/no_data"
+            android:contentDescription="Avatar"
+            />
+
+        <TextView
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search for Instargram Users !"
+            android:id="@+id/text"/>
+    </LinearLayout>
 
 </LinearLayout>

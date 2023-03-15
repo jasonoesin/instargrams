@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+        hideProgressBar()
 
         setContentView(view)
     }
@@ -48,6 +50,14 @@ class MainActivity : AppCompatActivity() {
         binding.rvSearch.adapter = adapter
     }
 
+    fun showProgressBar(){
+        binding.rvSearch.adapter = null
+        binding.progress.visibility = View.VISIBLE
+    }
+
+    fun hideProgressBar(){
+        binding.progress.visibility = View.GONE
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
@@ -59,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         searchView.queryHint = "Search for users ..."
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                showProgressBar()
 
                 val client = ApiConfig.getApi().searchUsers(query, "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")
                 client.enqueue(object : Callback<SearchResponse> {
@@ -69,14 +80,27 @@ class MainActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val responseBody = response.body()
                             if (responseBody != null) {
-                                setSearchUsersData(responseBody.items)
+                                if(responseBody.items.isNotEmpty()){
+                                    binding.noDataLayout.visibility = View.INVISIBLE
+                                    setSearchUsersData(responseBody.items)
+                                }else{
+                                    binding.rvSearch.adapter = null
+                                    binding.noDataLayout.visibility = View.VISIBLE
+                                }
+                            }
+                            else{
+                                binding.rvSearch.adapter = null
+                                binding.noDataLayout.visibility = View.VISIBLE
                             }
                         } else {
                             Log.e("TESTING", "onFailure: ${response.message()}")
                         }
+                        hideProgressBar()
                     }
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                         Log.e("TESTING", "onFailure: ${t.message}")
+                        hideProgressBar()
+
                     }
                 })
 

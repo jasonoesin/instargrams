@@ -3,6 +3,7 @@ package com.example.instargrams
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.annotation.StringRes
 import com.example.instargrams.adapters.PagerAdapter
 import com.example.instargrams.databinding.ActivityDetailBinding
@@ -38,9 +39,19 @@ class DetailActivity : AppCompatActivity() {
         val pagerAdapter = PagerAdapter(this, username!!)
         binding.viewPager.adapter = pagerAdapter
 
+        showProgressBar()
         fetchUserDetail(username)
-
         setContentView(view)
+    }
+
+    private fun showProgressBar(){
+        binding.dataLayout.visibility = View.GONE
+        binding.progress.visibility = View.VISIBLE
+    }
+
+    fun hideProgressBar(){
+        binding.dataLayout.visibility = View.VISIBLE
+        binding.progress.visibility = View.GONE
     }
 
     private fun fetchUserDetail(username: String){
@@ -73,6 +84,8 @@ class DetailActivity : AppCompatActivity() {
                 } else {
                     Log.e("TESTING", "onFailure: ${response.message()}")
                 }
+
+                hideProgressBar()
             }
             override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
                 Log.e("TESTING", "onFailure: ${t.message}")
